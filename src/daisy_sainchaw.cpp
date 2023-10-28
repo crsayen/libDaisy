@@ -5,8 +5,8 @@ using namespace daisy;
 
 // Hardware Definitions
 #define PIN_ENC_CLICK 0
-#define PIN_ENC_B 11
-#define PIN_ENC_A 12
+#define PIN_ENC_B 12
+#define PIN_ENC_A 11
 #define NOTE_LED_PIN 4 // this is the Daisy pin (not MCU pin)
 #define PITCH_LED_PIN 3 // this is the Daisy pin (not MCU pin)
 #define NORMALIZATION_PROBE_PIN 21 // this is the Daisy pin (not MCU pin)
@@ -36,17 +36,13 @@ void Sainchaw::Init(bool boost)
     dsy_gpio_init(&note_led);
     alt_led.pin  = seed.GetPin(PITCH_LED_PIN);
     alt_led.mode = DSY_GPIO_MODE_OUTPUT_PP;
-    // pitch_led.pull  = DSY_GPIO_NOPULL;
+    // alt_led.pull  = DSY_GPIO_NOPULL;
     dsy_gpio_init(&alt_led);
-    normalization_probe.pin  = seed.GetPin(NORMALIZATION_PROBE_PIN);
-    normalization_probe.mode = DSY_GPIO_MODE_OUTPUT_PP;
-    // pitch_led.pull  = DSY_GPIO_NOPULL;
-    dsy_gpio_init(&alt_led);
+    norm_probe.pin  = seed.GetPin(NORMALIZATION_PROBE_PIN);
+    norm_probe.mode = DSY_GPIO_MODE_OUTPUT_PP;
+    // norm_probe.pull  = DSY_GPIO_NOPULL;
+    dsy_gpio_init(&norm_probe);
 
-
-    // Set Screen update vars
-    screen_update_period_ = 17; // roughly 60Hz
-    screen_update_last_   = seed.system.GetNow();
 }
 
 void Sainchaw::DelayMs(size_t del)
@@ -230,5 +226,10 @@ void Sainchaw::SetNoteLed(bool state)
 
 void Sainchaw::SetAltLed(bool state) 
 {
-     dsy_gpio_write(&note_led, state);
+     dsy_gpio_write(&alt_led, state);
+}
+
+void Sainchaw::SetNormalizationProbe(bool state)
+{
+    dsy_gpio_write(&norm_probe, state);
 }

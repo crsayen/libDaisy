@@ -115,10 +115,9 @@ class Sainchaw
     DaisySeed       seed;                             /**< Seed object */
     Encoder         encoder;                          /**< Encoder object */
     AnalogControl   controls[CTRL_LAST];              /**< Array of controls*/
-    dsy_gpio        note_led, alt_led, normalization_probe;
-
-    // TODO: Add class for Gate output
-    dsy_gpio gate_output; /**< &  */
+    dsy_gpio        note_led;
+    dsy_gpio        alt_led;
+    dsy_gpio        norm_probe;
 
 
   private:
@@ -126,8 +125,6 @@ class Sainchaw
     void InitAudio();
     void InitControls();
     void InitEncoder();
-
-    uint32_t screen_update_last_, screen_update_period_;
 };
 
 } // namespace daisy
