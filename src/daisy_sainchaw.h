@@ -20,13 +20,13 @@ class Sainchaw
      */
     enum Ctrl
     {
-        DETUNE_CTRL,// 22
-        SHAPE_CTRL,// 23
-        FM_CTRL,// 24
-        PITCH_1_CTRL,// 25
-        PITCH_2_CTRL,// 26
-        PITCH_3_CTRL,// 27
-        CTRL_LAST, /**< */
+        DETUNE_CTRL,  // 22
+        SHAPE_CTRL,   // 23
+        FM_CTRL,      // 24
+        PITCH_1_CTRL, // 25
+        PITCH_2_CTRL, // 26
+        PITCH_3_CTRL, // 27
+        CTRL_LAST,    /**< */
     };
 
     /** Constructor */
@@ -85,6 +85,7 @@ class Sainchaw
 
     /** Call at same rate as reading controls for good reads. */
     void ProcessAnalogControls();
+    void ProcessAnalogControl(size_t c);
 
     /** Process Analog and Digital Controls */
     inline void ProcessAllControls()
@@ -103,8 +104,6 @@ class Sainchaw
 
     void SetAltLed(bool state);
 
-    void SetNormalizationProbe(bool state);
-
     /**  Process the digital controls */
     void ProcessDigitalControls();
 
@@ -117,7 +116,6 @@ class Sainchaw
     AnalogControl   controls[CTRL_LAST];              /**< Array of controls*/
     dsy_gpio        note_led;
     dsy_gpio        alt_led;
-    dsy_gpio        norm_probe;
 
 
   private:
