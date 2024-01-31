@@ -7,9 +7,8 @@ using namespace daisy;
 #define PIN_ENC_CLICK 0
 #define PIN_ENC_B 11
 #define PIN_ENC_A 12
-#define NOTE_LED_PIN 4 // this is the Daisy pin (not MCU pin)
+#define NOTE_LED_PIN 4  // this is the Daisy pin (not MCU pin)
 #define PITCH_LED_PIN 3 // this is the Daisy pin (not MCU pin)
-#define NORMALIZATION_PROBE_PIN 21 // this is the Daisy pin (not MCU pin)
 
 #define PIN_AK4556_RESET 29
 
@@ -18,7 +17,7 @@ using namespace daisy;
 #define PIN_FM_CTRL 17
 #define PIN_PITCH_1_CTRL 18
 #define PIN_PITCH_2_CTRL 19
-#define PIN_PITCH_3_CTRL 21
+#define PIN_PITCH_3_CTRL 21 
 
 void Sainchaw::Init(bool boost)
 {
@@ -30,23 +29,16 @@ void Sainchaw::Init(bool boost)
     InitControls();
 
     // LEDs
-    note_led.pin   = seed.GetPin(NOTE_LED_PIN);
-    note_led.mode  = DSY_GPIO_MODE_OUTPUT_PP;
+    note_led.pin  = seed.GetPin(NOTE_LED_PIN);
+    note_led.mode = DSY_GPIO_MODE_OUTPUT_PP;
     // note_led.pull  = DSY_GPIO_NOPULL;
     dsy_gpio_init(&note_led);
     alt_led.pin  = seed.GetPin(PITCH_LED_PIN);
     alt_led.mode = DSY_GPIO_MODE_OUTPUT_PP;
     // pitch_led.pull  = DSY_GPIO_NOPULL;
     dsy_gpio_init(&alt_led);
-    normalization_probe.pin  = seed.GetPin(NORMALIZATION_PROBE_PIN);
-    normalization_probe.mode = DSY_GPIO_MODE_OUTPUT_PP;
     // pitch_led.pull  = DSY_GPIO_NOPULL;
     dsy_gpio_init(&alt_led);
-
-
-    // Set Screen update vars
-    screen_update_period_ = 17; // roughly 60Hz
-    screen_update_last_   = seed.system.GetNow();
 }
 
 void Sainchaw::DelayMs(size_t del)
@@ -123,6 +115,13 @@ void Sainchaw::ProcessAnalogControls()
         controls[i].Process();
     }
 }
+
+void Sainchaw::ProcessAnalogControl(size_t c)
+{
+    if (c >= CTRL_LAST) { return; }
+    controls[c].Process();
+}
+
 float Sainchaw::GetKnobValue(Ctrl k)
 {
     return (controls[k].Value());
@@ -223,12 +222,12 @@ void Sainchaw::InitEncoder()
                  seed.GetPin(PIN_ENC_CLICK));
 }
 
-void Sainchaw::SetNoteLed(bool state) 
+void Sainchaw::SetNoteLed(bool state)
 {
-     dsy_gpio_write(&note_led, state);
+    dsy_gpio_write(&note_led, state);
 }
 
-void Sainchaw::SetAltLed(bool state) 
+void Sainchaw::SetAltLed(bool state)
 {
-     dsy_gpio_write(&note_led, state);
+    dsy_gpio_write(&alt_led, state);
 }
